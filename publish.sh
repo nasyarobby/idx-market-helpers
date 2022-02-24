@@ -1,5 +1,6 @@
 #!/bin/bash
 cat package.json | grep "version"
-cp package.json ./dist
+tsc
+cp package.json ./dist/package.json
 cd ./dist
 npm publish
