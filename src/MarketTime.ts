@@ -3,7 +3,19 @@ import {
   DateLike, isAfterHours, isInSessionOne, isInSessionTwo, isOnBreak, isPreClose, isWorkingDays,
 } from './helpers';
 
-export default class MarketTime {
+interface MarketTimeInterface {
+  isWorkingDays(date: DateLike): boolean;
+  isNotHolidays(date?: DateLike): boolean;
+  isMarketDays(date?: DateLike): boolean;
+  isInSessionOne(date?: DateLike): boolean;
+  isInSessionTwo(date?: DateLike): boolean;
+  isPreClose(date?: DateLike): boolean;
+  isAfterHours(date?: DateLike): boolean;
+  isOnBreak(date?: DateLike): boolean;
+  isLive(date?: DateLike): boolean;
+}
+
+export default class MarketTime implements MarketTimeInterface {
   holidays: string[];
 
   constructor(holidays: string[]) {
@@ -46,5 +58,9 @@ export default class MarketTime {
   isOnBreak(date?: DateLike) {
     const now = dayjs(date);
     return this.isMarketDays(date) && isOnBreak(date);
+  }
+
+  isLive(date?: DateLike) {
+    return this.isInSessionOne(date) || this.isInSessionTwo(date);
   }
 }
