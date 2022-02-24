@@ -3,7 +3,7 @@ import {
   DateLike, isAfterHours, isInSessionOne, isInSessionTwo, isOnBreak, isPreClose, isWorkingDays,
 } from './helpers';
 
-interface MarketTimeInterface {
+export interface MarketTimeInterface {
   isWorkingDays(date: DateLike): boolean;
   isNotHolidays(date?: DateLike): boolean;
   isMarketDays(date?: DateLike): boolean;
@@ -62,5 +62,10 @@ export default class MarketTime implements MarketTimeInterface {
 
   isLive(date?: DateLike) {
     return this.isInSessionOne(date) || this.isInSessionTwo(date);
+  }
+
+  getPreviousMarketDay(date?: DateLike): Date {
+    if (this.isMarketDays(date)) return dayjs(date).toDate();
+    return this.getPreviousMarketDay(dayjs(date).subtract(1, 'days'));
   }
 }
