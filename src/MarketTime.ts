@@ -13,6 +13,7 @@ export interface MarketTimeInterface {
   isAfterHours(date?: DateLike): boolean;
   isOnBreak(date?: DateLike): boolean;
   isLive(date?: DateLike): boolean;
+  getPreviousMarketDay(date?: DateLike): Date;
 }
 
 export default class MarketTime implements MarketTimeInterface {
@@ -51,12 +52,10 @@ export default class MarketTime implements MarketTimeInterface {
   }
 
   isAfterHours(date?: DateLike) {
-    const now = dayjs(date);
     return this.isMarketDays(date) && isAfterHours(date);
   }
 
   isOnBreak(date?: DateLike) {
-    const now = dayjs(date);
     return this.isMarketDays(date) && isOnBreak(date);
   }
 
